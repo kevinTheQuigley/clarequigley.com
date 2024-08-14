@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Margery Stapleton Art</title>
+        <title>Gallery</title>
         <link rel="icon" type="image/x-icon" href="./static/assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -34,30 +34,52 @@
             </div>
         </nav>
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('/static/assets/img/ACFavourite.jpg')">
+        <header class="masthead" style="background-image: url('/static/assets/img/gallery.jpg')">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="page-heading">
-                            <h1>About Me</h1>
-                            <span class="subheading">Margery Stapleton. Artist.</span>
+                            <h1>Gallery </h1>
                         </div>
                     </div>
                 </div>
             </div>
         </header>
         <!-- Main Content-->
-        <main class="mb-4">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <p>Currently based in Limerick,I am an oil painter who finds endless inspiration in the dynamic beauty of the sea. My work is a tribute to the raw power and subtle grace of moving water, particularly in its most untamed forms. Whether capturing the ferocity of rough seas or the quiet intimacy of a wave gently meeting the shore, my paintings strive to evoke the deep emotional connection we share with the ocean.</p>
-                        <p>Each brushstroke is an exploration of the ocean's dual nature—both a source of tranquility and a force of immense power. I seek to create pieces that resonate on a personal level, inviting the viewer to feel the pull of the tides and the energy of the water as if they were standing at the water's edge.</p>
-                        <p>My artistic journey is one of continual discovery, where every canvas becomes a vessel for exploring the infinite moods of the sea. Through the vivid textures and rich tones of oil paint, I aim to capture moments that are both ephemeral and timeless, inviting you to experience the profound beauty and mystery of the ocean as I see it.</p>
+        <!-- Post preview-->
+        <div class = "album py-5 bg-body-tertiary">
+          <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+              {%for blogPost in blog%}
+                <div class="col">
+                  <div class="card shadow-sm">
+                    <img class="bd-placeholder-img card-img-top" width="100%" height="225" src = "{{blogPost['image_location']}}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false" > 
+                    <div class="card-body">
+                      <p class="card-text">{{blogPost["title"]}}</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ url_for('returnPhoto', id=blogPost['id'])}}">
+                                <h4 class="post-subtitle"> {{blogPost["subtitle"]}} </h4>
+                            </a>
+                          </button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary">
+                            <a href="{{ url_for('returnPhoto', id=blogPost['id'])}}">
+                                <h4 class="post-subtitle">view </h4>
+                            </a>
+                          </button>
+                        </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
+              {% endfor %}
             </div>
-        </main>
+          </div>
+        </div>
+
+
+
         <!-- Footer-->
         <footer class="border-top">
             <div class="container px-4 px-lg-5">

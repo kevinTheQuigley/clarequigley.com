@@ -7,8 +7,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    blogData = requests.get("https://api.npoint.io/16c047af2b016b24c4fa").json()
-    return(render_template("index.html",blog = blogData))
+    photoData = requests.get("https://api.npoint.io/af83026d4e0579fc5161").json()
+    print(photoData)
+    return(render_template("index.html",blog = photoData))
 
 @app.route("/about/")
 def about():
@@ -16,7 +17,8 @@ def about():
 
 @app.route("/gallery/")
 def gallery():
-    return(render_template("gallery.html"))
+    photoData = requests.get("https://api.npoint.io/af83026d4e0579fc5161").json()
+    return(render_template("gallery.html",blog = photoData))
 
 @app.route("/contact/")
 def contact():
@@ -24,13 +26,13 @@ def contact():
 
 @app.route("/blogPost/<int:id>")
 def returnBlogpost(id):
-    blogData = requests.get("https://api.npoint.io/16c047af2b016b24c4fa").json()
-    return(render_template("post.html",blog = blogData[int(id)-1]))
+    photoData = requests.get("https://api.npoint.io/af83026d4e0579fc5161").json()
+    return(render_template("post.html",blog = photoData[int(id)-1]))
 
 @app.route("/gallery/<int:id>")
-def returnGalleryID(id):
-    blogData = requests.get("https://api.npoint.io/16c047af2b016b24c4fa").json()
-    return(render_template("post.html",blog = blogData[int(id)-1]))
+def returnPhoto(id):
+    photoData = requests.get("https://api.npoint.io/af83026d4e0579fc5161").json()
+    return(render_template("post.html",blog = photoData[int(id)-1]))
 
 
 while __name__ =="__main__":
