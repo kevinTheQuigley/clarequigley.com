@@ -9,6 +9,7 @@ EXPOSE 8081
 
 #Install modules
 RUN pip3 install requests
+RUN pip3 install smtplib
 
 # Copy your Flask app code to the /app directory
 COPY ./app /app

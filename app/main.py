@@ -1,6 +1,7 @@
-from flask import Flask,render_template
+from flask import Flask,render_template, request
 import requests
-
+import smtplib
+from arsewards import arsewards_dict
 
 
 app = Flask(__name__)
@@ -20,9 +21,32 @@ def gallery():
     photoData = requests.get("https://api.npoint.io/af83026d4e0579fc5161").json()
     return(render_template("gallery.html",blog = photoData))
 
-@app.route("/contact/")
+@app.route("/contact/",methods =["GET"])
 def contact():
     return(render_template("contact.html"))
+
+@app.route("/contact",methods =["POST"])
+def recieve_data():
+    error = None
+    if request.method == 'POST':
+        if (request.form['name']) and (request.form['phone']):
+            data = request.form
+            send_email(data["name"], data["email"], data["phone"], data["text"])
+            return(render_template("contact.html",result = "1" ,message = "Thank you for your message."))
+            return "<h1> Username:" + request.form['name'] + "Password: "+request.form['phone'] +"</h1>"
+        else:
+            error = 'Invalid username/password'
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+    return render_template('login.html', error=error)
+
+def send_email(name, email, phone, message):
+    email_message = f"Subject:New Message\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nMessage:{message}"
+    with smtplib.SMTP("smtp.gmail.com") as connection:
+        connection.starttls()
+        connection.login(user = "KevinsFancyTester12@gmail.com",password =  arsewards_dict["KevinsFancyGmAppPassword"])
+        connection.sendmail("KevinsFancyTester12@gmail.com", arsewards_dict["kevinsHiddenEmail"], email_message)
+        connection.close()
 
 @app.route("/blogPost/<int:id>")
 def returnBlogpost(id):
