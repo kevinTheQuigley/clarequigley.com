@@ -13,4 +13,8 @@ RUN pip3 install requests
 # Copy your Flask app code to the /app directory
 COPY ./app /app
 
+
+COPY ./../arsewards.py /app/arsewards.py
+
+
 # The base image already takes care of running uWSGI and Nginx
