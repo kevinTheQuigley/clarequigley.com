@@ -10,7 +10,7 @@ if not os.path.exists(output_folder):
     os.makedirs(output_folder)
 
 # Set the desired quality (between 1 and 100, 85 is usually a good compromise)
-quality = 50
+quality = 25
 
 # Loop through all files in the folder
 for filename in os.listdir(image_folder):
