@@ -11,6 +11,8 @@ EXPOSE 8081
 RUN pip3 install requests
 RUN pip3 install pillow
 RUN pip3 install flask
+RUN pip3 install flask_caching
+
 
 # Copy your Flask app code to the /app directory
 COPY ./app /app
