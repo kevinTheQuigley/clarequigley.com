@@ -23,6 +23,15 @@ def home():
 def about():
     return render_template("about.html")
 
+@app.route("/publications/")
+def publications():
+    return render_template("publications.html")
+
+@app.route("/book/")
+def book():
+    return render_template("book.html")
+
+
 @app.route("/gallery/")
 def gallery():
     photoData = get_photo_data()  # Use the cached photo data

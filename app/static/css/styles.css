@@ -12,6 +12,8 @@
  */
 :root {
   --bs-blue: #0d6efd;
+  --kq-blue: #2440cd;
+  --kq-blueLight: #6679bf;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
   --bs-pink: #d63384;
@@ -3654,8 +3656,8 @@ textarea.form-control-lg {
   --bs-navbar-brand-padding-y: 0.3125rem;
   --bs-navbar-brand-margin-end: 1rem;
   --bs-navbar-brand-font-size: 1.25rem;
-  --bs-navbar-brand-color: rgba(0, 0, 0, 0.9);
-  --bs-navbar-brand-hover-color: rgba(0, 0, 0, 0.9);
+  --bs-navbar-brand-color: var(--kq-blue);
+  --bs-navbar-brand-hover-color: var(--kq-blueLight);
   --bs-navbar-nav-link-padding-x: 0.5rem;
   --bs-navbar-toggler-padding-y: 0.25rem;
   --bs-navbar-toggler-padding-x: 0.75rem;
@@ -3804,8 +3806,7 @@ textarea.form-control-lg {
     flex-grow: 1;
     width: auto !important;
     height: auto !important;
-    visibility: visible !important;
-    background-color: transparent !important;
+    visibility: visible;
     border: 0 !important;
     transform: none !important;
     transition: none;
@@ -3886,7 +3887,7 @@ textarea.form-control-lg {
     overflow: visible;
   }
   .navbar-expand-lg .navbar-collapse {
-    display: flex !important;
+    display: flex ;
     flex-basis: auto;
   }
   .navbar-expand-lg .navbar-toggler {
@@ -3896,12 +3897,12 @@ textarea.form-control-lg {
     position: static;
     z-index: auto;
     flex-grow: 1;
-    width: auto !important;
-    height: auto !important;
-    visibility: visible !important;
-    background-color: transparent !important;
-    border: 0 !important;
-    transform: none !important;
+    width: auto ;
+    height: auto ;
+    visibility: visible ;
+    background-color: transparent ;
+    border: 0 ;
+    transform: none ;
     transition: none;
   }
   .navbar-expand-lg .offcanvas .offcanvas-header {
@@ -3980,7 +3981,7 @@ textarea.form-control-lg {
     overflow: visible;
   }
   .navbar-expand-xxl .navbar-collapse {
-    display: flex !important;
+    display: flex ;
     flex-basis: auto;
   }
   .navbar-expand-xxl .navbar-toggler {
@@ -3990,12 +3991,12 @@ textarea.form-control-lg {
     position: static;
     z-index: auto;
     flex-grow: 1;
-    width: auto !important;
-    height: auto !important;
-    visibility: visible !important;
-    background-color: transparent !important;
-    border: 0 !important;
-    transform: none !important;
+    width: auto ;
+    height: auto ;
+    visibility: visible ;
+    background-color: transparent ;
+    border: 0 ;
+    transform: none ;
     transition: none;
   }
   .navbar-expand-xxl .offcanvas .offcanvas-header {
@@ -4026,7 +4027,7 @@ textarea.form-control-lg {
   overflow: visible;
 }
 .navbar-expand .navbar-collapse {
-  display: flex !important;
+  display: flex ;
   flex-basis: auto;
 }
 .navbar-expand .navbar-toggler {
@@ -4036,12 +4037,12 @@ textarea.form-control-lg {
   position: static;
   z-index: auto;
   flex-grow: 1;
-  width: auto !important;
-  height: auto !important;
-  visibility: visible !important;
-  background-color: transparent !important;
-  border: 0 !important;
-  transform: none !important;
+  width: auto ;
+  height: auto ;
+  visibility: visible ;
+  background-color: transparent ;
+  border: 0 ;
+  transform: none ;
   transition: none;
 }
 .navbar-expand .offcanvas .offcanvas-header {
@@ -5859,7 +5860,7 @@ textarea.form-control-lg {
   .offcanvas-sm {
     --bs-offcanvas-height: auto;
     --bs-offcanvas-border-width: 0;
-    background-color: transparent !important;
+    background-color: transparent ;
   }
   .offcanvas-sm .offcanvas-header {
     display: none;
@@ -5869,7 +5870,7 @@ textarea.form-control-lg {
     flex-grow: 0;
     padding: 0;
     overflow-y: visible;
-    background-color: transparent !important;
+    background-color: transparent ;
   }
 }
 
@@ -6035,7 +6036,7 @@ textarea.form-control-lg {
   .offcanvas-lg {
     --bs-offcanvas-height: auto;
     --bs-offcanvas-border-width: 0;
-    background-color: transparent !important;
+    background-color: transparent ;
   }
   .offcanvas-lg .offcanvas-header {
     display: none;
@@ -7903,7 +7904,7 @@ textarea.form-control-lg {
 
 .bg-transparent {
   --bs-bg-opacity: 1;
-  background-color: transparent !important;
+  background-color: transparent;
 }
 
 .bg-opacity-10 {
@@ -10592,49 +10593,60 @@ blockquote {
   right: 0;
   z-index: 1030;
   border-bottom: 1px solid #dee2e6;
-  background-color: #fff;
-  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  color: var(--kq-blue);
+  font-family: "Roboto", sans-serif;
+  /*font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";*/
 }
 #mainNav .navbar-brand {
   font-weight: 800;
 }
 #mainNav .navbar-toggler {
-  font-size: 0.75rem;
-  font-weight: 800;
+  font-size: 0.9rem;
+  font-weight: 1000;
   padding: 0.75rem;
-  text-transform: uppercase;
+  text-transform: none;
+  background-color: white; /* Add this line */
 }
 #mainNav .navbar-nav > li.nav-item > a.nav-link {
-  font-size: 0.75rem;
-  font-weight: 800;
+  color: var(--kq-blue); 
+  font-size: 0.9rem;
+  font-weight: 1000;
   letter-spacing: 0.0625em;
-  text-transform: uppercase;
+  text-transform: none;
+}
+@media (max-width: 992px) {
+  #mainNav .navbar-nav > li.nav-item > a.nav-link {
+    color: var(--kq-blue); /* Use kq-blue for reduced screen widths */
+  }
+}
+@media (min-width: 992px) {
+  #mainNav {
+    /* border-bottom: 1px solid transparent;*/
+    background-color: white; 
+    /*background: transparent;*/
+  }
+  #mainNav .navbar-brand {
+    color: var(--kq-blue); 
+  }
+  #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
+    color: var(--kq-blueLight);
+    /*color: rgba(255, 255, 255, 0.8);*/
+  }
+  #mainNav .navbar-nav > li.nav-item > a.nav-link {
+    color: var(--kq-blue);
+    /*color: #fff;*/
+  }
+  #mainNav .navbar-nav > li.nav-item > a.nav-link:focus, #mainNav .navbar-nav > li.nav-item > a.nav-link:hover {
+    color: var(--kq-blueLight);
+    /*color: lighten(var(--kq-blue), 30%);*/
+    /*color: rgba(255, 255, 255, 0.8);*/
+  }
 }
 @media (min-width: 992px) {
   #mainNav {
     border-bottom: 1px solid transparent;
-    background: transparent;
-  }
-  #mainNav .navbar-brand {
-    color: #fff;
-  }
-  #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
-    color: rgba(255, 255, 255, 0.8);
-  }
-  #mainNav .navbar-nav > li.nav-item > a.nav-link {
-    color: #fff;
-  }
-  #mainNav .navbar-nav > li.nav-item > a.nav-link:focus, #mainNav .navbar-nav > li.nav-item > a.nav-link:hover {
-    color: rgba(255, 255, 255, 0.8);
-  }
-}
-@media (min-width: 992px) {
-  #mainNav {
-    transition: background-color 0.2s;
-    /* Force Hardware Acceleration in WebKit */
-    transform: translate3d(0, 0, 0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
+    background-color: white; 
+    /*background: transparent;*/
   }
   #mainNav.is-fixed {
     /* when the user scrolls down, we hide the header right above the viewport */
@@ -10651,7 +10663,7 @@ blockquote {
     color: #0085A1;
   }
   #mainNav.is-fixed .navbar-nav > li.nav-item > a {
-    color: #212529;
+    color: var(--kq-blue);
   }
   #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus, #mainNav.is-fixed .navbar-nav > li.nav-item > a:hover {
     color: #0085A1;
@@ -10751,6 +10763,7 @@ header.masthead .post-heading .meta a {
   }
 }
 
+
 .section-heading {
   font-size: 2.25rem;
   font-weight: 700;
@@ -10795,4 +10808,45 @@ header.masthead .post-heading .meta a {
   .post-preview > a > .post-title {
     font-size: 2.25rem;
   }
+}
+.navbar-toggler:focus, .navbar-toggler:active, .navbar-toggler.collapsed {  /* Add this line */
+  background-color: white !important; 
+}
+.navbar-light .navbar-toggler {
+  background-color: white !important;
+}
+
+#mainNav .navbar-toggler {
+    font-size: 0.9rem;
+    font-weight: 1000;
+    padding: 0.75rem;
+    text-transform: none;
+    background-color: white !important; /* Added !important */
+}
+
+.navbar {
+    background-color: white; /* Ensure the navbar is always white */
+    transition: background-color 0.3s ease-in-out; /* Optional: for a smooth transition */
+}
+
+
+
+@media (max-width: 991.98px) {
+    .navbar-nav .nav-link {
+        color: var(--kq-blue) !important; /* Set text to kq-blue for small screens */
+    }
+
+    .navbar-nav .nav-link:hover, 
+    .navbar-nav .nav-link:focus {
+        color: var(--kq-blueLight) !important; /* Optional hover/focus effect */
+    }
+
+    .navbar-collapse .dropdown-item {
+        color: var(--kq-blue) !important; /* Ensure dropdown items are blue */
+    }
+
+    .navbar-collapse .dropdown-item:hover {
+        color: var(--bs-white) !important; /* Optional: Change color on hover */
+        background-color: var(--kq-blueLight) !important; /* Add hover background */
+    }
 }

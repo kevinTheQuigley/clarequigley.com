@@ -19,6 +19,3 @@ COPY ./app /app
 
 
 COPY ./arsewards.py /app/arsewards.py
-
-
-# The base image already takes care of running uWSGI and Nginx
