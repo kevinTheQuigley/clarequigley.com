@@ -23,7 +23,7 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="page-heading">
-                            <h1>About</h1>
+                            <h1>Publications</h1>
                         </div>
                     </div>
                 </div>
@@ -31,53 +31,108 @@
         </header>
 
         <!-- Main Content-->
-        <main class="mb-4">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <p>Currently based in Limerick, I am an oil painter who finds endless inspiration in the dynamic beauty of the sea. My work is a tribute to the raw power and subtle grace of moving water, particularly in its most untamed forms. Whether capturing the ferocity of rough seas or the quiet intimacy of a wave gently meeting the shore, my paintings strive to evoke the deep emotional connection we share with the ocean.</p>
-                        <p>Each brushstroke is an exploration of the ocean's dual nature—both a source of tranquility and a force of immense power. I seek to create pieces that resonate on a personal level, inviting the viewer to feel the pull of the tides and the energy of the water as if they were standing at the water's edge.</p>
-                        <p>My artistic journey is one of continual discovery, where every canvas becomes a vessel for exploring the infinite moods of the sea. Through the vivid textures and rich tones of oil paint, I aim to capture moments that are both ephemeral and timeless, inviting you to experience the profound beauty and mystery of the ocean as I see it.</p>
+
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    
+                    <!-- Loading spinner -->
+                    <div id="loading-spinner" class="text-center mt-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading publications...</p>
+                    </div>
+                    
+                    <!-- Publications list -->
+                    <div id="publications-list" class="mt-4 d-none">
+                    </div>
+                    
+                    <!-- Error message -->
+                    <div id="error-message" class="alert alert-danger d-none" role="alert">
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
+
+        <script>
+        const CACHE_KEY = 'publications_cache';
+        const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
+        async function loadPublications() {
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const publicationsList = document.getElementById('publications-list');
+            const errorMessage = document.getElementById('error-message');
+            
+            try {
+                // Check cache
+                const cachedData = localStorage.getItem(CACHE_KEY);
+                if (cachedData) {
+                    const { publications, timestamp } = JSON.parse(cachedData);
+                    if (Date.now() - timestamp < CACHE_DURATION) {
+                        displayPublications(publications);
+                        return;
+                    }
+                }
+                
+                // Fetch fresh data
+                const response = await fetch('/api/publications');
+                if (!response.ok) throw new Error('Failed to fetch publications');
+                
+                const publications = await response.json();
+                
+                // Cache the data
+                localStorage.setItem(CACHE_KEY, JSON.stringify({
+                    publications,
+                    timestamp: Date.now()
+                }));
+                
+                displayPublications(publications);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                loadingSpinner.classList.add('d-none');
+                errorMessage.textContent = 'Unable to load publications at this time.';
+                errorMessage.classList.remove('d-none');
+            }
+        }
+
+        function displayPublications(publications) {
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const publicationsList = document.getElementById('publications-list');
+            
+            let html = '<div class="list-group">';
+            
+            publications.forEach(pub => {
+                html += `
+                    <div class="list-group-item border-0 ps-0">
+                        <h5 class="mb-1">${pub.title}</h5>
+                        <p class="mb-1">
+                            ${pub.journal ? `<em>${pub.journal}</em>, ` : ''}
+                            ${pub.year || 'Year not specified'}
+                        </p>
+                        ${pub.doi ? `
+                            <small>
+                                <a href="https://doi.org/${pub.doi}" target="_blank" class="text-primary">
+                                    DOI: ${pub.doi}
+                                </a>
+                            </small>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            
+            publicationsList.innerHTML = html;
+            loadingSpinner.classList.add('d-none');
+            publicationsList.classList.remove('d-none');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPublications);
+        </script>
         <!-- Footer-->
-        <footer class="border-top">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <ul class="list-inline text-center">
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="small text-center text-muted fst-italic">Copyright &copy;   Kevin Quigley  2024 </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        {% include "footer.html" %} 
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Clean Blog - Start Bootstrap Theme</title>
+    <title>Dr. Clare Quigley </title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
@@ -16,8 +16,8 @@
 
 
 <body>
-    {% include "header.html" %}  
         <!-- Page Header-->
+        {% include "header.html" %}  
         <header class="masthead" style="background-image: url('/static/assets/img/about.jpg'); background-size: cover; background-position: center; height: 50vh;" >
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -31,56 +31,94 @@
         </header>
 
         <!-- Main Content-->
-        <main class="mb-4">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <p>Currently based in Limerick, I am an oil painter who finds endless inspiration in the dynamic beauty of the sea. My work is a tribute to the raw power and subtle grace of moving water, particularly in its most untamed forms. Whether capturing the ferocity of rough seas or the quiet intimacy of a wave gently meeting the shore, my paintings strive to evoke the deep emotional connection we share with the ocean.</p>
-                        <p>Each brushstroke is an exploration of the ocean's dual nature—both a source of tranquility and a force of immense power. I seek to create pieces that resonate on a personal level, inviting the viewer to feel the pull of the tides and the energy of the water as if they were standing at the water's edge.</p>
-                        <p>My artistic journey is one of continual discovery, where every canvas becomes a vessel for exploring the infinite moods of the sea. Through the vivid textures and rich tones of oil paint, I aim to capture moments that are both ephemeral and timeless, inviting you to experience the profound beauty and mystery of the ocean as I see it.</p>
+
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div id="biography-section" class="mt-4">
+                        <!-- Loading spinner -->
+                        <div id="loading-spinner" class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Loading biography...</p>
+                        </div>
+                        <!-- Biography text will be loaded here -->
+                        <div id="biography-content" class="d-none">
+                        </div>
+                        <!-- Error message -->
+                        <div id="error-message" class="alert alert-danger d-none" role="alert">
+                        </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
+
+        <script>
+        const CACHE_KEY = 'orcid_bio_cache';
+        const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+        async function loadBiography() {
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const biographyContent = document.getElementById('biography-content');
+            const errorMessage = document.getElementById('error-message');
+            
+            try {
+                // Check cache first
+                const cachedData = localStorage.getItem(CACHE_KEY);
+                if (cachedData) {
+                    const { biography, timestamp } = JSON.parse(cachedData);
+                    const age = Date.now() - timestamp;
+                    
+                    if (age < CACHE_DURATION) {
+                        displayBiography(biography);
+                        return;
+                    }
+                }
+                
+                // Fetch fresh data
+                const response = await fetch('/api/orcid-bio');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch biography');
+                }
+                
+                const data = await response.json();
+                
+                // Save to cache
+                localStorage.setItem(CACHE_KEY, JSON.stringify({
+                    biography: data.biography,
+                    timestamp: Date.now()
+                }));
+                
+                displayBiography(data.biography);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                loadingSpinner.classList.add('d-none');
+                errorMessage.textContent = 'Unable to load biography at this time.';
+                errorMessage.classList.remove('d-none');
+            }
+        }
+
+        function displayBiography(text) {
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const biographyContent = document.getElementById('biography-content');
+            
+            biographyContent.innerHTML = `<p class="mb-4">${text}</p>`;
+            loadingSpinner.classList.add('d-none');
+            biographyContent.classList.remove('d-none');
+        }
+
+        // Load biography when page loads
+        document.addEventListener('DOMContentLoaded', loadBiography);
+        </script>
         <!-- Footer-->
-        <footer class="border-top">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <ul class="list-inline text-center">
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="small text-center text-muted fst-italic">Copyright &copy;   Kevin Quigley  2024 </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        {% include "footer.html" %} 
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <script src="js/scripts.js">
+
+        </script>
 </body>
 </html>

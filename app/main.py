@@ -1,8 +1,14 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,jsonify
 import requests
 import smtplib
 from arsewards import arsewards_dict
 from flask_caching import Cache
+
+from flask import jsonify
+from datetime import datetime
+import json
+from functools import lru_cache
+import os
 
 app = Flask(__name__)
 
@@ -19,13 +25,6 @@ def home():
     photoData = get_photo_data()  # Use the cached photo data
     return render_template("index.html", blog=photoData)
 
-@app.route("/about/")
-def about():
-    return render_template("about.html")
-
-@app.route("/publications/")
-def publications():
-    return render_template("publications.html")
 
 @app.route("/book/")
 def book():
@@ -70,6 +69,84 @@ def return_blogpost(id):
 def returnPhoto(id):
     photoData = get_photo_data()  # Use the cached photo data
     return render_template("post.html", blog=photoData[int(id)-1])
+
+
+# Cache the ORCID API response for 24 hours
+@lru_cache(maxsize=1)
+def get_orcid_data():
+    orcid_id = '0000-0001-6914-7447'
+    url = f'https://pub.orcid.org/v3.0/{orcid_id}/person'
+    
+    try:
+        response = requests.get(url, headers={'Accept': 'application/json'})
+        response.raise_for_status()
+        data = response.json()
+        # Store timestamp with the data
+        return {
+            'biography': data.get('biography', {}).get('content', ''),
+            'timestamp': datetime.now().timestamp()
+        }
+    except Exception as e:
+        print(f"Error fetching ORCID data: {e}")
+        return None
+
+@app.route('/about/')
+def about():
+    return render_template('about.html')
+
+@app.route('/api/orcid-bio')
+def orcid_bio():
+    data = get_orcid_data()
+    if data:
+        return jsonify(data)
+    return jsonify({'error': 'Unable to fetch biography'}), 500
+
+
+
+
+@lru_cache(maxsize=1)
+def get_orcid_publications():
+    orcid_id = '0000-0001-6914-7447'
+    url = f'https://pub.orcid.org/v3.0/{orcid_id}/works'
+    
+    try:
+        response = requests.get(url, headers={'Accept': 'application/json'})
+        response.raise_for_status()
+        data = response.json()
+        
+        # Extract and format publication data
+        publications = []
+        for work in data.get('group', []):
+            work_summary = work['work-summary'][0]
+            
+            pub = {
+                'title': work_summary.get('title', {}).get('title', {}).get('value', ''),
+                'year': work_summary.get('publication-date', {}).get('year', {}).get('value', ''),
+                'journal': work_summary.get('journal-title', {}).get('value', ''),
+                'doi': work_summary.get('external-ids', {}).get('external-id', [{}])[0].get('external-id-value', ''),
+                'type': work_summary.get('type', '')
+            }
+            publications.append(pub)
+            
+        # Sort by year, newest first
+        publications.sort(key=lambda x: x['year'] or '0', reverse=True)
+        return publications
+        
+    except Exception as e:
+        print(f"Error fetching ORCID publications: {e}")
+        return None
+
+@app.route('/publications/')
+def publications():
+    return render_template('publications.html')
+
+@app.route('/api/publications')
+def get_publications():
+    pubs = get_orcid_publications()
+    if pubs:
+        return jsonify(pubs)
+    return jsonify({'error': 'Unable to fetch publications'}), 500
+
 
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
