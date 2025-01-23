@@ -5,12 +5,41 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Clean Blog - Start Bootstrap Theme</title>
         <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
+        <title>Contact Me</title>
+        <style>
+            .container {
+                display: flex;
+                height: 100vh;
+            }
+            .map-container {
+                flex: 1;
+                height: 900px;
+                border: none;
+            }
+            .contact-container {
+                flex: 1;
+                background-color: #1D4F91;
+                color: white;
+                padding: 40px;
+            }
+            .contact-container h1 {
+                font-size: 24px;
+                margin-bottom: 30px;
+            }
+            .contact-container p {
+                margin: 15px 0;
+                font-size: 16px;
+            }
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+            }
+        </style>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> 
     </head>
 
@@ -34,8 +63,25 @@
         </header>
         <!-- Main Content-->
         <main class="mb-4">
-
-
+        <div class="container">
+            <iframe
+                class="map-container"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2384.3183606778156!2d-6.218971199999999!3d53.2777488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4867090b8383dab5%3A0xedacbbfc78174ae!2sProgressive%20Vision%20Sandyford!5e0!3m2!1sen!2sie!4v1706004699121!5m2!1sen!2sie"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+            <div class="contact-container">
+                <h1>Sandyford Outpatients Contact</h1>
+                <p><strong>Address</strong><br>
+                Unit 6, The Plaza, Beacon South Quarter,<br>
+                Sandyford, Dublin 18, Ireland</p>
+                <p><strong>Phone</strong><br>
+                01 213 5652</p>
+                <p><strong>Email</strong><br>
+                info@progressivevision.ie</p>
+            </div>
+        </div> 
 
         </main>
         <!-- Footer-->
