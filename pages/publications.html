@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Clean Blog - Start Bootstrap Theme</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> 
+</head>
+
+
+<body>
+    {% include "header.html" %}  
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('/static/assets/img/about.jpg'); background-size: cover; background-position: center; height: 50vh;" >
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="page-heading">
+                            <h1>Publications</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content-->
+
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    
+                    <!-- Loading spinner -->
+                    <div id="loading-spinner" class="text-center mt-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading publications...</p>
+                    </div>
+                    
+                    <!-- Publications list -->
+                    <div id="publications-list" class="mt-4 d-none">
+                    </div>
+                    
+                    <!-- Error message -->
+                    <div id="error-message" class="alert alert-danger d-none" role="alert">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        const CACHE_KEY = 'publications_cache';
+        const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
+        async function loadPublications() {
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const publicationsList = document.getElementById('publications-list');
+            const errorMessage = document.getElementById('error-message');
+            
+            try {
+                // Check cache
+                const cachedData = localStorage.getItem(CACHE_KEY);
+                if (cachedData) {
+                    const { publications, timestamp } = JSON.parse(cachedData);
+                    if (Date.now() - timestamp < CACHE_DURATION) {
+                        displayPublications(publications);
+                        return;
+                    }
+                }
+                
+                // Fetch fresh data
+                const response = await fetch('/api/publications');
+                if (!response.ok) throw new Error('Failed to fetch publications');
+                
+                const publications = await response.json();
+                
+                // Cache the data
+                localStorage.setItem(CACHE_KEY, JSON.stringify({
+                    publications,
+                    timestamp: Date.now()
+                }));
+                
+                displayPublications(publications);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                loadingSpinner.classList.add('d-none');
+                errorMessage.textContent = 'Unable to load publications at this time.';
+                errorMessage.classList.remove('d-none');
+            }
+        }
+
+        function displayPublications(publications) {
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const publicationsList = document.getElementById('publications-list');
+            
+            let html = '<div class="list-group">';
+            
+            publications.forEach(pub => {
+                html += `
+                    <div class="list-group-item border-0 ps-0">
+                        <h5 class="mb-1">${pub.title}</h5>
+                        <p class="mb-1">
+                            ${pub.journal ? `<em>${pub.journal}</em>, ` : ''}
+                            ${pub.year || 'Year not specified'}
+                        </p>
+                        ${pub.doi ? `
+                            <small>
+                                <a href="https://doi.org/${pub.doi}" target="_blank" class="text-primary">
+                                    DOI: ${pub.doi}
+                                </a>
+                            </small>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            
+            publicationsList.innerHTML = html;
+            loadingSpinner.classList.add('d-none');
+            publicationsList.classList.remove('d-none');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPublications);
+        </script>
+        <!-- Footer-->
+        {% include "footer.html" %} 
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+</body>
+</html>

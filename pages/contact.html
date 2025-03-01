@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
+        <title>Contact Me</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <style>
+            .contact-wrapper {
+                display: flex;
+                justify-content: space-between;
+                gap: 2rem;
+                margin: 2rem auto;
+                max-width: 1200px;
+                padding: 0 1rem;
+            }
+            .map-container {
+                flex: 1;
+                min-height: 400px;
+                width: 100%;
+            }
+            .contact-container {
+                flex: 1;
+                background-color: #2440cd;
+                color: white;
+                padding: 2rem;
+                border-radius: 8px;
+            }
+            .contact-container h1 {
+                color: white;
+                margin-bottom: 1.5rem;
+            }
+            @media (max-width: 768px) {
+                .contact-wrapper {
+                    flex-direction: column;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        {% include "header.html" %}  
+        <header class="masthead" style="background-image: linear-gradient(to right, var(--kq-blue), rgba(36, 64, 205, 0.2) 50%, transparent), url('/static/assets/img/contact.jpg'); height: 30vh;">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading text-center text-white">
+                            <h1>Contact</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="mb-4">
+        <div class="contact-wrapper">
+            <div class="contact-container">
+                <p><strong>Phone</strong><br>
+                01 213 5652</p>
+                <p><strong>Email</strong><br>
+                info@progressivevision.ie</p>
+            </div>
+        </div>
+        
+        <div class="contact-wrapper">
+            <div class="contact-container">
+                <h1>Progressive Vision Sandyford</h1>
+                <p><strong>Address</strong><br>
+                Unit 6, The Plaza, Beacon South Quarter,<br>
+                Sandyford, Dublin 18, Ireland</p>
+            </div>
+            <iframe
+                class="map-container"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2384.3183606778156!2d-6.218971199999999!3d53.2777488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4867090b8383dab5%3A0xedacbbfc78174ae!2sProgressive%20Vision%20Sandyford!5e0!3m2!1sen!2sie!4v1706004699121!5m2!1sen!2sie"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+        <div class="contact-wrapper">
+            <div class="contact-container">
+                <h1>Progressive Vision Swords</h1>
+                <p><strong>Address</strong><br>
+                Unit 3c, Swords Business Campus,<br>
+                Balheary Rd, Balheary Demesne,<br>
+                Swords, Co. Dublin, K67 K2F7, Ireland</p>
+            </div>
+            <iframe
+                class="map-container"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d9510.066726147693!2d-6.226537!3d53.460414!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48670db79cf5bc3b%3A0x245db51de2d38da8!2sProgressive%20Vision%20Swords!5e0!3m2!1sen!2sie!4v1706093847404!5m2!1sen!2sie"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+        </main> 
+        <footer class="border-top" style="background-color: #2440cd; font-family: 'Roboto', sans-serif;">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-12">
+                        <div class="small text-center text-white fst-italic pb-2">Copyright &copy; 2024 Clare Quigley | Website Design by Kevin Quigley</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>
