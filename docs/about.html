@@ -6,119 +6,144 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Dr. Clare Quigley </title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> 
+    <link rel="stylesheet" href="css/styles.css"> 
 </head>
 
 
 <body>
-        <!-- Page Header-->
-        {% include "header.html" %}  
-        <header class="masthead" style="background-image: url('/static/assets/img/about.jpg'); background-size: cover; background-position: center; height: 50vh;" >
-            <div class="container position-relative px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <div class="page-heading">
-                            <h1>About</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content-->
-
-        <div class="container px-4 px-lg-5">
+    <!-- Page Header-->
+    <div id="header-placeholder"></div>
+    
+    <header class="masthead" style="background-image: url('assets/img/about.jpg'); background-size: cover; background-position: center; height: 50vh;" >
+        <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                    <div id="biography-section" class="mt-4">
-                        <!-- Loading spinner -->
-                        <div id="loading-spinner" class="text-center">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <p class="mt-2">Loading biography...</p>
-                        </div>
-                        <!-- Biography text will be loaded here -->
-                        <div id="biography-content" class="d-none">
-                        </div>
-                        <!-- Error message -->
-                        <div id="error-message" class="alert alert-danger d-none" role="alert">
-                        </div>
+                    <div class="page-heading">
+                        <h1>About</h1>
                     </div>
                 </div>
             </div>
         </div>
+    </header>
 
-        <script>
-        const CACHE_KEY = 'orcid_bio_cache';
-        const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div id="biography-section" class="mt-4">
+                    <!-- Loading spinner -->
+                    <div id="loading-spinner" class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading biography...</p>
+                    </div>
+                    <!-- Biography text will be loaded here -->
+                    <div id="biography-content" class="d-none">
+                    </div>
+                    <!-- Error message -->
+                    <div id="error-message" class="alert alert-danger d-none" role="alert">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        async function loadBiography() {
-            const loadingSpinner = document.getElementById('loading-spinner');
-            const biographyContent = document.getElementById('biography-content');
-            const errorMessage = document.getElementById('error-message');
-            
-            try {
-                // Check cache first
-                const cachedData = localStorage.getItem(CACHE_KEY);
-                if (cachedData) {
-                    const { biography, timestamp } = JSON.parse(cachedData);
-                    const age = Date.now() - timestamp;
-                    
-                    if (age < CACHE_DURATION) {
-                        displayBiography(biography);
-                        return;
-                    }
-                }
+    <script>
+    // Change this to your ORCID ID
+    const ORCID_ID = '0000-0002-1234-5678'; // REPLACE WITH YOUR ACTUAL ORCID ID
+    const CACHE_KEY = 'orcid_bio_cache';
+    const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    
+    // Default biography to use if ORCID fetching fails
+    const DEFAULT_BIOGRAPHY = 'Clare Quigley is a consultant eye surgeon specializing in cornea and external eye diseases.';
+
+    async function loadBiography() {
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const biographyContent = document.getElementById('biography-content');
+        const errorMessage = document.getElementById('error-message');
+        
+        try {
+            // Check cache first
+            const cachedData = localStorage.getItem(CACHE_KEY);
+            if (cachedData) {
+                const { biography, timestamp } = JSON.parse(cachedData);
+                const age = Date.now() - timestamp;
                 
-                // Fetch fresh data
-                const response = await fetch('/api/orcid-bio');
+                if (age < CACHE_DURATION) {
+                    displayBiography(biography);
+                    return;
+                }
+            }
+            
+            // Fetch directly from ORCID's public API
+            try {
+                const response = await fetch(`https://pub.orcid.org/v3.0/${ORCID_ID}/person`, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
                 if (!response.ok) {
-                    throw new Error('Failed to fetch biography');
+                    throw new Error('Failed to fetch from ORCID');
                 }
                 
                 const data = await response.json();
                 
+                // Extract biography from the ORCID data
+                let biography = DEFAULT_BIOGRAPHY;
+                
+                if (data.biography && data.biography.content) {
+                    biography = data.biography.content;
+                }
+                
                 // Save to cache
                 localStorage.setItem(CACHE_KEY, JSON.stringify({
-                    biography: data.biography,
+                    biography: biography,
                     timestamp: Date.now()
                 }));
                 
-                displayBiography(data.biography);
+                displayBiography(biography);
+                return;
                 
-            } catch (error) {
-                console.error('Error:', error);
-                loadingSpinner.classList.add('d-none');
-                errorMessage.textContent = 'Unable to load biography at this time.';
-                errorMessage.classList.remove('d-none');
+            } catch (fetchError) {
+                console.warn('Could not fetch from ORCID:', fetchError);
+                // Fall back to default biography
+                displayBiography(DEFAULT_BIOGRAPHY);
             }
-        }
-
-        function displayBiography(text) {
-            const loadingSpinner = document.getElementById('loading-spinner');
-            const biographyContent = document.getElementById('biography-content');
             
-            biographyContent.innerHTML = `<p class="mb-4">${text}</p>`;
+        } catch (error) {
+            console.error('Error:', error);
             loadingSpinner.classList.add('d-none');
-            biographyContent.classList.remove('d-none');
+            errorMessage.textContent = 'Unable to load biography at this time.';
+            errorMessage.classList.remove('d-none');
         }
+    }
 
-        // Load biography when page loads
-        document.addEventListener('DOMContentLoaded', loadBiography);
-        </script>
-        <!-- Footer-->
-        {% include "footer.html" %} 
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js">
+    function displayBiography(text) {
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const biographyContent = document.getElementById('biography-content');
+        
+        biographyContent.innerHTML = `<p class="mb-4">${text}</p>`;
+        loadingSpinner.classList.add('d-none');
+        biographyContent.classList.remove('d-none');
+    }
 
-        </script>
+    // Load biography when page loads
+    document.addEventListener('DOMContentLoaded', loadBiography);
+    </script>
+
+    <!-- Footer-->
+    <div id="footer-placeholder"></div>
+    
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
 </body>
 </html>
