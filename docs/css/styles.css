@@ -10765,7 +10765,7 @@ header.masthead .post-heading .meta a {
     /* Remove old padding properties */
     /* padding-top: 6.25rem; */
     /* padding-bottom: 6.25rem; */
-    
+    padding-top: calc(3rem + var(--navbar-height, 57px));
     /* Keep it at the same height on all screen sizes */
     min-height: 30vh;
     padding: 4rem 0;
