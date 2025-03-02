@@ -16,7 +16,7 @@
 <body>
     
 <!-- Include header -->
-<div id="header-placeholder"></div>
+    <div id="header-placeholder"></div>
 
 <header class="masthead" style="background-image: 
     linear-gradient(to right, var(--kq-blue), 
@@ -34,6 +34,76 @@
         </div>
     </div>
 </header>
+
+<style>
+    .image-option {
+        border-radius: 50% !important;
+        width: 556px;
+        height: 556px;
+        object-fit: cover !important;
+    }
+    
+    @media(max-width:768px) {
+        .image-option {
+            border-radius: 50% !important;
+            width: 350px;
+            height: 350px;
+            object-fit: cover;
+        }
+    }
+    
+    @media(max-width:768px) {
+        .centervideo {
+            display: flex;
+            justify-content: center;
+        }
+    }
+    
+    .section__about-us {
+        padding: 5rem 0;
+        background-color: #f8f9fa;
+    }
+    
+    .section__action {
+        padding: 5rem 0;
+    }
+    
+    .section__action.alt {
+        background-color: #fff;
+    }
+</style>
+
+<section id="about-section" class="section section__about-us">
+    <div class="about-us">
+        <div class="container">
+            <div class="row justify-content-start">
+                <div class="col-12 col-lg-6">
+                    <h3>About</h3>
+                    <p>Clare Quigley is a Consultant Eye Surgeon in private practice in Progressive Vision, Dublin, providing a
+                    comprehensive ophthalmic service, including cataract and oculoplastic surgery. Her professional goal is to
+                    deliver a top-quality patient-centered service.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="profile-section" class="section section__action alt">
+    <div class="action">
+        <div class="container">
+            <div class="row justify-content-start">
+                <div class="col-12 col-lg-6 align-self-center order-1 centervideo">
+                    <img class="img image-option" src="assets/img/homeProfile.jpeg" alt="Clare Quigley, Consultant Eye Surgeon">
+                </div>
+                <div class="col-12 col-lg-5 align-self-center order-2">
+                    <h3>Specialist Expertise</h3>
+                    <p>Ms. Clare Quigley specializes in cornea and external eye diseases, with extensive training and experience in ophthalmic surgery. She provides comprehensive eye care with particular expertise in cataract surgery and oculoplastic procedures.</p>
+                    <p>Working alongside a team of skilled professionals at Progressive Vision, Ms. Quigley ensures patients receive thorough assessments and personalized treatment plans in a comfortable and modern clinical environment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Include footer -->
 <div id="footer-placeholder"></div>
