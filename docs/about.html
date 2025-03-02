@@ -28,16 +28,37 @@
             border: 4px solid #2440cd;
         }
         
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            padding-right: 30px;
+        }
+        
+        .biography-container {
+            padding-left: 15px;
+        }
+        
         @media (max-width: 768px) {
             .profile-img {
                 width: 250px;
                 height: 250px;
+                margin-bottom: 30px;
+            }
+            
+            .profile-container {
+                padding-right: 0;
+            }
+            
+            .biography-container {
+                padding-left: 0;
             }
         }
+        
         .credentials-section {
             margin-top: 3rem;
             padding-top: 2rem;
             border-top: 1px solid #e9ecef;
+            clear: both;
         }
         .credentials-section h3 {
             margin-bottom: 1.5rem;
@@ -79,13 +100,13 @@
     <!-- Main Content-->
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="col-md-10 col-lg-10 col-xl-9">
                 <!-- Biography Section with Photo -->
                 <div class="row mt-4">
-                    <div class="col-md-4 mb-4">
+                    <div class="col-md-5 mb-4 profile-container">
                         <img src="assets/img/aboutProfile.jpg" alt="Clare Quigley" class="profile-img">
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-7 biography-container">
                         <div id="biography-section">
                             <!-- Loading spinner -->
                             <div id="loading-spinner" class="text-center">
