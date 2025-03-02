@@ -12,13 +12,19 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="css/styles.css"> 
+    <style>
+        .biography-text {
+            white-space: pre-line;
+            line-height: 1.6;
+        }
+    </style>
 </head>
 
 
 <body>
-    <!-- Page Header-->
     <div id="header-placeholder"></div>
     
+    <!-- Page Header-->
     <header class="masthead" style="background-image: url('assets/img/about.jpg'); background-size: cover; background-position: center; height: 50vh;" >
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -55,7 +61,7 @@
     </div>
 
     <script>
-    // Change this to your ORCID ID
+    // Change this to the actual ORCID ID
     const ORCID_ID = '0000-0001-6914-7447'; // REPLACE WITH YOUR ACTUAL ORCID ID
     const CACHE_KEY = 'orcid_bio_cache';
     const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -129,7 +135,9 @@
         const loadingSpinner = document.getElementById('loading-spinner');
         const biographyContent = document.getElementById('biography-content');
         
-        biographyContent.innerHTML = `<p class="mb-4">${text}</p>`;
+        // Using a <div> with the biography-text class to preserve formatting
+        biographyContent.innerHTML = `<div class="biography-text">${text}</div>`;
+        
         loadingSpinner.classList.add('d-none');
         biographyContent.classList.remove('d-none');
     }
@@ -137,7 +145,7 @@
     // Load biography when page loads
     document.addEventListener('DOMContentLoaded', loadBiography);
     </script>
-
+    
     <!-- Footer-->
     <div id="footer-placeholder"></div>
     
