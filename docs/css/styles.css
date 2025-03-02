@@ -10682,17 +10682,14 @@ footer {
 header.masthead {
   position: relative;
   margin-bottom: 3rem;
-  /* Remove padding-top and padding-bottom */
-  /* padding-top: calc(4rem + 57px); */
-  /* padding-bottom: 4rem; */
   background: no-repeat center center;
   background-color: #6c757d;
   background-size: cover;
   background-attachment: scroll;
   
-  /* Add these properties for vertical centering */
-  height: 30vh;
-  min-height: 200px;
+  /* Dynamic height settings */
+  min-height: 30vh;
+  padding: 3rem 0;
   display: flex;
   align-items: center;
 }
@@ -10770,8 +10767,8 @@ header.masthead .post-heading .meta a {
     /* padding-bottom: 6.25rem; */
     
     /* Keep it at the same height on all screen sizes */
-    height: 30vh;
-    min-height: 250px;
+    min-height: 30vh;
+    padding: 4rem 0;
   }
   
   header.masthead .page-heading h1, header.masthead .page-heading .h1,
