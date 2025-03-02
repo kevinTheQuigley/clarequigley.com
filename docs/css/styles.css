@@ -10678,10 +10678,10 @@ footer {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
-
 header.masthead {
   position: relative;
   margin-bottom: 3rem;
+  margin-top: 57px; /* Add margin-top equal to navbar height */
   background: no-repeat center center;
   background-color: #6c757d;
   background-size: cover;
@@ -10762,13 +10762,9 @@ header.masthead .post-heading .meta a {
 
 @media (min-width: 992px) {
   header.masthead {
-    /* Remove old padding properties */
-    /* padding-top: 6.25rem; */
-    /* padding-bottom: 6.25rem; */
-    padding-top: calc(3rem + var(--navbar-height, 57px));
-    /* Keep it at the same height on all screen sizes */
+    margin-top: 57px; /* Keep the margin-top consistent */
     min-height: 30vh;
-    padding: 4rem 0;
+    padding: 4rem 0; /* Single padding definition */
   }
   
   header.masthead .page-heading h1, header.masthead .page-heading .h1,
