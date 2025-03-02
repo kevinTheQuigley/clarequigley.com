@@ -51,42 +51,26 @@
                 <!-- Error message -->
                 <div id="error-message" class="alert alert-danger d-none" role="alert">
                 </div>
+                
+                <!-- No publications message -->
+                <div id="no-publications" class="alert alert-info mt-4 d-none">
+                    No publications are currently available.
+                </div>
             </div>
         </div>
     </div>
 
     <script>
     // Change this to the actual ORCID ID
-    const ORCID_ID = '0000-0001-6914-7447'; // REPLACE WITH ACTUAL ORCID ID
+    const ORCID_ID = '0000-0001-6914-7447';
     const CACHE_KEY = 'publications_cache';
     const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
-
-    // Sample publications in case the API call fails
-    const FALLBACK_PUBLICATIONS = [
-        {
-            title: "Corneal epithelial toxicity of antiglaucoma formulations: in vitro study of repeated applications",
-            journal: "Clinical & Experimental Ophthalmology",
-            year: 2022,
-            doi: "10.1111/ceo.13892"
-        },
-        {
-            title: "Comparison of macular thickness measurements between time-domain and spectral-domain optical coherence tomography",
-            journal: "Journal of Cataract & Refractive Surgery",
-            year: 2020,
-            doi: "10.1097/j.jcrs.0000000000000123"
-        },
-        {
-            title: "Effectiveness of intravitreal anti-VEGF injections for wet age-related macular degeneration",
-            journal: "Eye",
-            year: 2019,
-            doi: "10.1038/s41433-018-0300-3"
-        }
-    ];
 
     async function loadPublications() {
         const loadingSpinner = document.getElementById('loading-spinner');
         const publicationsList = document.getElementById('publications-list');
         const errorMessage = document.getElementById('error-message');
+        const noPublications = document.getElementById('no-publications');
         
         try {
             // Check cache
@@ -94,7 +78,11 @@
             if (cachedData) {
                 const { publications, timestamp } = JSON.parse(cachedData);
                 if (Date.now() - timestamp < CACHE_DURATION) {
-                    displayPublications(publications);
+                    if (publications && publications.length > 0) {
+                        displayPublications(publications);
+                    } else {
+                        showNoPublicationsMessage();
+                    }
                     return;
                 }
             }
@@ -149,19 +137,16 @@
                     timestamp: Date.now()
                 }));
                 
-                displayPublications(publications);
+                if (publications && publications.length > 0) {
+                    displayPublications(publications);
+                } else {
+                    showNoPublicationsMessage();
+                }
                 return;
                 
             } catch (orcidError) {
                 console.warn('Error fetching from ORCID:', orcidError);
-                // Fall back to static data
-                displayPublications(FALLBACK_PUBLICATIONS);
-                
-                // Cache the fallback data
-                localStorage.setItem(CACHE_KEY, JSON.stringify({
-                    publications: FALLBACK_PUBLICATIONS,
-                    timestamp: Date.now()
-                }));
+                showNoPublicationsMessage();
             }
             
         } catch (error) {
@@ -202,6 +187,16 @@
         publicationsList.innerHTML = html;
         loadingSpinner.classList.add('d-none');
         publicationsList.classList.remove('d-none');
+    }
+    
+    function showNoPublicationsMessage() {
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const publicationsList = document.getElementById('publications-list');
+        const noPublications = document.getElementById('no-publications');
+        
+        loadingSpinner.classList.add('d-none');
+        publicationsList.classList.add('d-none');
+        noPublications.classList.remove('d-none');
     }
 
     document.addEventListener('DOMContentLoaded', loadPublications);
