@@ -27,13 +27,12 @@
                     </a>
                 </li>
                 <li class="nav-item d-flex align-items-center">
-                    <a class="nav-link px-lg-4 py-3 btn btn-primary rounded-pill text-white" href="contact.html">Make An Appointment</a>
+                    <a class="nav-link px-lg-4 py-3 btn btn-primary rounded-pill appointment-btn" href="contact.html">Make An Appointment</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-
 <style>
 .navbar-brand-container {
     display: flex;
@@ -49,5 +48,30 @@
 .navbar-subtitle {
     font-size: 0.8rem;
     color: #6c757d;
+}
+
+/* Fix for appointment button text color */
+.appointment-btn {
+    color: white !important; /* Force white text at all screen sizes */
+}
+
+/* Override any nav-link:hover styles for the appointment button */
+.appointment-btn:hover, 
+.appointment-btn:focus {
+    color: white !important;
+}
+
+/* Additional mobile styling fixes */
+@media (max-width: 991.98px) {
+    .navbar-nav .nav-link.appointment-btn {
+        color: white !important; /* Ensure text stays white on mobile */
+    }
+    
+    /* Make the appointment button stand out on mobile */
+    .navbar-nav .nav-link.appointment-btn {
+        display: inline-block;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
 </style>
